@@ -4,13 +4,27 @@ import ProductCard from './components/productCard.jsx'
 import SearchBar from './components/SearchBar.jsx'
 import './App.css'
 
+const stockLocations = [
+  'Flagship Boutique',
+  'Online Warehouse',
+  'Bridal Collection',
+  'Limited Edition Vault',
+]
+
+const locationMap = {
+  'Location 1': 'Flagship Boutique',
+  'Location 2': 'Online Warehouse',
+  'Location 3': 'Bridal Collection',
+  'Location 4': 'Limited Edition Vault',
+}
+
 const initialProducts = [
   {
     id: 1,
     name: 'Aurora Pearl Necklace',
     description: 'Freshwater pearls with gold accents',
     origin: 'Atelier Nairobi',
-    location: 'Location 1',
+    location: 'Flagship Boutique',
     price: 189.99,
     stock: 18,
     status: 'Active',
@@ -20,7 +34,7 @@ const initialProducts = [
     name: 'Solitaire Gold Ring',
     description: 'Minimal polished gold band',
     origin: 'Atelier Paris',
-    location: 'Location 2',
+    location: 'Online Warehouse',
     price: 245.5,
     stock: 9,
     status: 'Active',
@@ -30,7 +44,7 @@ const initialProducts = [
     name: 'Celeste Drop Earrings',
     description: 'Soft blue crystal drop earrings',
     origin: 'Atelier Milan',
-    location: 'Location 3',
+    location: 'Bridal Collection',
     price: 96,
     stock: 5,
     status: 'Low Stock',
@@ -40,7 +54,7 @@ const initialProducts = [
     name: 'Noir Tennis Bracelet',
     description: 'Dark stone bracelet with clasp',
     origin: 'Atelier Lagos',
-    location: 'Location 4',
+    location: 'Limited Edition Vault',
     price: 320,
     stock: 0,
     status: 'Paused',
@@ -50,7 +64,7 @@ const initialProducts = [
     name: 'Luna Charm Bracelet',
     description: 'Moon charms on a fine chain',
     origin: 'Atelier Nairobi',
-    location: 'Location 1',
+    location: 'Flagship Boutique',
     price: 128,
     stock: 22,
     status: 'Active',
@@ -60,7 +74,7 @@ const initialProducts = [
     name: 'Opal Stack Ring',
     description: 'Layered opal ring set',
     origin: 'Atelier Paris',
-    location: 'Location 2',
+    location: 'Online Warehouse',
     price: 175,
     stock: 7,
     status: 'Low Stock',
@@ -70,7 +84,7 @@ const initialProducts = [
     name: 'Golden Hoop Earrings',
     description: 'Classic gold hoops',
     origin: 'Atelier Milan',
-    location: 'Location 3',
+    location: 'Bridal Collection',
     price: 88,
     stock: 15,
     status: 'Active',
@@ -80,7 +94,7 @@ const initialProducts = [
     name: 'Pearl Pendant',
     description: 'Single pearl pendant necklace',
     origin: 'Atelier Lagos',
-    location: 'Location 4',
+    location: 'Limited Edition Vault',
     price: 142,
     stock: 12,
     status: 'Active',
@@ -91,7 +105,7 @@ const emptyForm = {
   name: '',
   description: '',
   origin: '',
-  location: 'Location 1',
+  location: 'Flagship Boutique',
   price: '',
   stock: '',
   status: 'Active',
@@ -102,10 +116,14 @@ const productColors = ['#fff1f6', '#fde7ef', '#f9d4e2', '#fbeaf1']
 const normalizeProduct = (product, index) => ({
   description: 'Hand-finished jewellery piece',
   origin: 'Aurelia Studio',
-  location: `Location ${(index % 4) + 1}`,
+  location: stockLocations[index % stockLocations.length],
   stock: 10,
   status: 'Active',
   ...product,
+  location:
+    locationMap[product.location] ||
+    product.location ||
+    stockLocations[index % stockLocations.length],
 })
 
 function App() {
@@ -370,10 +388,9 @@ function App() {
         <label>
           Location
           <select name="location" value={formData.location} onChange={handleFormChange}>
-            <option>Location 1</option>
-            <option>Location 2</option>
-            <option>Location 3</option>
-            <option>Location 4</option>
+            {stockLocations.map((location) => (
+              <option key={location}>{location}</option>
+            ))}
           </select>
         </label>
         <label>
